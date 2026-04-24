@@ -1,8 +1,10 @@
 package study.mf.books_mvc_dto.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import study.mf.books_mvc_dto.dto.request.AddBookRequestDto;
 import study.mf.books_mvc_dto.dto.request.BookTitleAuthorRequestDto;
 import study.mf.books_mvc_dto.dto.request.BookTitleRequestDto;
 import study.mf.books_mvc_dto.dto.response.BookResponseDto;
@@ -34,4 +36,8 @@ public class BookController {
         return ResponseEntity.ok(bookService.findByTitleAndAuthor(requestDto.title(), requestDto.author()));
     }
 
+    @PostMapping("/add_book")
+    public ResponseEntity<BookResponseDto> saveBook(@Valid @RequestBody AddBookRequestDto requestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.saveBook(requestDto));
+    }
 }
