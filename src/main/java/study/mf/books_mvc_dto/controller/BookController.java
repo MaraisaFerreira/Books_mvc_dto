@@ -1,9 +1,10 @@
 package study.mf.books_mvc_dto.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import study.mf.books_mvc_dto.dto.request.BookTitleAuthorRequestDto;
+import study.mf.books_mvc_dto.dto.request.BookTitleRequestDto;
 import study.mf.books_mvc_dto.dto.response.BookResponseDto;
 import study.mf.books_mvc_dto.service.BookService;
 
@@ -18,8 +19,19 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
+    @GetMapping("/search_all")
     public ResponseEntity<List<BookResponseDto>> findAll(){
         return ResponseEntity.ok(bookService.findAll());
     }
+
+    @PostMapping("/search_title")
+    public ResponseEntity<List<BookResponseDto>> findByTitle(@Valid @RequestBody BookTitleRequestDto requestDto){
+        return ResponseEntity.ok(bookService.findByTitle(requestDto.title()));
+    }
+
+    @PostMapping("/search_title_and_author")
+    public ResponseEntity<BookResponseDto> findByTitleAndAuthor(@Valid @RequestBody BookTitleAuthorRequestDto requestDto){
+        return ResponseEntity.ok(bookService.findByTitleAndAuthor(requestDto.title(), requestDto.author()));
+    }
+
 }
