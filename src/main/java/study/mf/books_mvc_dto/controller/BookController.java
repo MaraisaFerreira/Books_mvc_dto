@@ -27,6 +27,8 @@ public class BookController {
         return ResponseEntity.ok(bookService.findAll());
     }
 
+
+
     @PostMapping("/search_title")
     public ResponseEntity<List<BookResponseDto>> findByTitle(@Valid @RequestBody BookTitleRequestDto requestDto){
         return ResponseEntity.ok(bookService.findByTitle(requestDto.title()));
@@ -45,5 +47,11 @@ public class BookController {
     @PutMapping("/update_book")
     public ResponseEntity<BookResponseDto> updateBook(@Valid @RequestBody UpdateBookRequestDto requestDto){
         return ResponseEntity.ok(bookService.updateBook(requestDto));
+    }
+
+    @DeleteMapping("/delete_book/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id){
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
     }
 }
