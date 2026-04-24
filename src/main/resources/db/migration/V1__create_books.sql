@@ -4,5 +4,5 @@ CREATE TABLE books (
    author VARCHAR(100) NOT NULL,
    release_year INT NOT NULL,
 
-   CONSTRAINT title_abd_author UNIQUE (title, author)
+   CONSTRAINT title_and_author UNIQUE (title, author)
 );
