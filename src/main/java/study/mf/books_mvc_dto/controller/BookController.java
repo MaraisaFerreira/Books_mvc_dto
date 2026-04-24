@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import study.mf.books_mvc_dto.dto.request.AddBookRequestDto;
 import study.mf.books_mvc_dto.dto.request.BookTitleAuthorRequestDto;
 import study.mf.books_mvc_dto.dto.request.BookTitleRequestDto;
+import study.mf.books_mvc_dto.dto.request.UpdateBookRequestDto;
 import study.mf.books_mvc_dto.dto.response.BookResponseDto;
 import study.mf.books_mvc_dto.service.BookService;
 
@@ -39,5 +40,10 @@ public class BookController {
     @PostMapping("/add_book")
     public ResponseEntity<BookResponseDto> saveBook(@Valid @RequestBody AddBookRequestDto requestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.saveBook(requestDto));
+    }
+
+    @PutMapping("/update_book")
+    public ResponseEntity<BookResponseDto> updateBook(@Valid @RequestBody UpdateBookRequestDto requestDto){
+        return ResponseEntity.ok(bookService.updateBook(requestDto));
     }
 }
