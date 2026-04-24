@@ -25,6 +25,14 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
+    public BookResponseDto findById(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found."));
+
+        return new BookResponseDto(book);
+    }
+
+    @Transactional(readOnly = true)
     public List<BookResponseDto> findByTitle(String title) {
         return bookRepository.findByTitle(title).stream().map(BookResponseDto::new).toList();
     }
@@ -78,6 +86,7 @@ public class BookService {
         return new BookResponseDto(book);
     }
 
+    @Transactional
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found."));

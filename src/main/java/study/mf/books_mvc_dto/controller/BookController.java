@@ -27,7 +27,10 @@ public class BookController {
         return ResponseEntity.ok(bookService.findAll());
     }
 
-
+    @GetMapping("/search_id/{id}")
+    public ResponseEntity<BookResponseDto> findById(@PathVariable Long id){
+        return ResponseEntity.ok(bookService.findById(id));
+    }
 
     @PostMapping("/search_title")
     public ResponseEntity<List<BookResponseDto>> findByTitle(@Valid @RequestBody BookTitleRequestDto requestDto){
