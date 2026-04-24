@@ -7,6 +7,8 @@ import study.mf.books_mvc_dto.dto.request.AddBookRequestDto;
 import study.mf.books_mvc_dto.dto.request.UpdateBookRequestDto;
 import study.mf.books_mvc_dto.dto.response.BookResponseDto;
 import study.mf.books_mvc_dto.entities.Book;
+import study.mf.books_mvc_dto.exceptions.CustomBadRequestException;
+import study.mf.books_mvc_dto.exceptions.CustomNotFoundException;
 import study.mf.books_mvc_dto.repository.BookRepository;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public BookResponseDto findById(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found."));
+                .orElseThrow(() -> new CustomNotFoundException("Book not found."));
 
         return new BookResponseDto(book);
     }
@@ -40,7 +42,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public BookResponseDto findByTitleAndAuthor(String title, String author) {
         Book book = bookRepository.findByTitleAndAuthor(title, author)
-                .orElseThrow(() -> new RuntimeException("Book  not found"));
+                .orElseThrow(() -> new CustomNotFoundException("Book  not found"));
 
         return new BookResponseDto(book);
     }
@@ -64,11 +66,11 @@ public class BookService {
         if (StringUtil.isNullOrEmpty(requestDto.title())
                 && StringUtil.isNullOrEmpty(requestDto.author())
                 && requestDto.releaseYear() == null) {
-            throw new RuntimeException("No data to update.");
+            throw new CustomBadRequestException("No data to update.");
         }
 
         Book book = bookRepository.findById(requestDto.id())
-                .orElseThrow(() -> new RuntimeException("Book not found."));
+                .orElseThrow(() -> new CustomNotFoundException("Book not found."));
 
 
         if (StringUtil.notNullNorEmpty(requestDto.title())) {
@@ -89,7 +91,7 @@ public class BookService {
     @Transactional
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found."));
+                .orElseThrow(() -> new CustomNotFoundException("Book not found."));
         bookRepository.delete(book);
     }
 }
